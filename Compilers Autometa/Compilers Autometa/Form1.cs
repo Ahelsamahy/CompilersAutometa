@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,7 +21,9 @@ namespace Compilers_Autometa
         private void btnConvert_Click(object sender, EventArgs e)
         {
             tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]", "i");
-
+            tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
+            lbResult.Text = "Converted text successfully";
+            lbResult.ForeColor = Color.Green;
 
         }
 
