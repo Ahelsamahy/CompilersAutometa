@@ -1,0 +1,16 @@
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\bin\Debug\netcoreapp3.1\Compilers Autometa.exe
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\bin\Debug\netcoreapp3.1\Compilers Autometa.deps.json
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\bin\Debug\netcoreapp3.1\Compilers Autometa.runtimeconfig.json
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\bin\Debug\netcoreapp3.1\Compilers Autometa.runtimeconfig.dev.json
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\bin\Debug\netcoreapp3.1\Compilers Autometa.dll
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\bin\Debug\netcoreapp3.1\Compilers Autometa.pdb
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.csproj.AssemblyReference.cache
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers_Autometa.Form1.resources
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.csproj.GenerateResource.cache
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.AssemblyInfoInputs.cache
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.AssemblyInfo.cs
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.csproj.CoreCompileInputs.cache
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.dll
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.pdb
+D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa\Compilers Autometa\Compilers Autometa\obj\Debug\netcoreapp3.1\Compilers Autometa.genruntimeconfig.cache
