@@ -37,8 +37,9 @@ namespace Compilers_Autometa
             this.lbPath = new System.Windows.Forms.Label();
             this.tbInput = new System.Windows.Forms.TextBox();
             this.tbConverted = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSolve = new System.Windows.Forms.Button();
             this.tbPath = new System.Windows.Forms.TextBox();
+            this.lbResult = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,11 +70,12 @@ namespace Compilers_Autometa
             this.btnBrowse.TabIndex = 2;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // lbConverted
             // 
             this.lbConverted.AutoSize = true;
-            this.lbConverted.Location = new System.Drawing.Point(13, 110);
+            this.lbConverted.Location = new System.Drawing.Point(12, 114);
             this.lbConverted.Name = "lbConverted";
             this.lbConverted.Size = new System.Drawing.Size(106, 20);
             this.lbConverted.TabIndex = 3;
@@ -108,19 +110,19 @@ namespace Compilers_Autometa
             // 
             // tbConverted
             // 
-            this.tbConverted.Location = new System.Drawing.Point(125, 107);
+            this.tbConverted.Location = new System.Drawing.Point(125, 111);
             this.tbConverted.Name = "tbConverted";
             this.tbConverted.Size = new System.Drawing.Size(286, 27);
             this.tbConverted.TabIndex = 8;
             // 
-            // button1
+            // btnSolve
             // 
-            this.button1.Location = new System.Drawing.Point(515, 42);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(273, 29);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Convert";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSolve.Location = new System.Drawing.Point(515, 42);
+            this.btnSolve.Name = "btnSolve";
+            this.btnSolve.Size = new System.Drawing.Size(273, 29);
+            this.btnSolve.TabIndex = 9;
+            this.btnSolve.Text = "Solve";
+            this.btnSolve.UseVisualStyleBackColor = true;
             // 
             // tbPath
             // 
@@ -129,13 +131,23 @@ namespace Compilers_Autometa
             this.tbPath.Size = new System.Drawing.Size(286, 27);
             this.tbPath.TabIndex = 10;
             // 
+            // lbResult
+            // 
+            this.lbResult.AutoSize = true;
+            this.lbResult.Location = new System.Drawing.Point(164, 9);
+            this.lbResult.Name = "lbResult";
+            this.lbResult.Size = new System.Drawing.Size(0, 20);
+            this.lbResult.TabIndex = 11;
+            this.lbResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 563);
+            this.Controls.Add(this.lbResult);
             this.Controls.Add(this.tbPath);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnSolve);
             this.Controls.Add(this.tbConverted);
             this.Controls.Add(this.tbInput);
             this.Controls.Add(this.lbPath);
@@ -162,8 +174,9 @@ namespace Compilers_Autometa
         private System.Windows.Forms.Label lbPath;
         private System.Windows.Forms.TextBox tbInput;
         private System.Windows.Forms.TextBox tbConverted;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSolve;
         private System.Windows.Forms.TextBox tbPath;
+        private System.Windows.Forms.Label lbResult;
     }
 }
 
