@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,7 +43,7 @@ namespace Compilers_Autometa
             OpenFileDialog browseDB = new OpenFileDialog();
             if (lastLocation.Length == 0)
             {
-                lastLocation = "c:\\";
+                lastLocation = @"D:\Work\Collage\3_Third Year\First Semester\Artifical neual network\mass\dataset\archive";
             }
             browseDB.InitialDirectory = lastLocation;
             browseDB.Filter = "Database files (*.csv)|*.csv; ";
@@ -53,8 +54,30 @@ namespace Compilers_Autometa
             {
                 lastLocation = Path.GetDirectoryName(browseDB.FileName);
                 tbPath.Text = browseDB.FileName;
-                //...
+                ReadCSV(browseDB.FileName);
             }
         }
+        private void ReadCSV(String fileLocation)
+        {
+            using (var reader = new StreamReader(fileLocation))
+            {
+                List<string> listA = new List<string>();
+                List<string> listB = new List<string>();
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(',');
+
+                    listA.Add(values[0]);
+                    listA.Add(values[1]);
+                    listA.Add(values[2]);
+                    listA.Add(values[3]);
+                    listA.Add(values[4]);
+                    listA.Add(values[5]);
+                    listA.Add(values[6]);
+                }
+            }
+        }
+
     }
 }

@@ -40,6 +40,7 @@ namespace Compilers_Autometa
             this.btnSolve = new System.Windows.Forms.Button();
             this.tbPath = new System.Windows.Forms.TextBox();
             this.lbResult = new System.Windows.Forms.Label();
+            this.lbTest = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -140,11 +141,21 @@ namespace Compilers_Autometa
             this.lbResult.TabIndex = 11;
             this.lbResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lbTest
+            // 
+            this.lbTest.AutoSize = true;
+            this.lbTest.Location = new System.Drawing.Point(515, 85);
+            this.lbTest.Name = "lbTest";
+            this.lbTest.Size = new System.Drawing.Size(72, 20);
+            this.lbTest.TabIndex = 12;
+            this.lbTest.Text = "Input text";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 563);
+            this.Controls.Add(this.lbTest);
             this.Controls.Add(this.lbResult);
             this.Controls.Add(this.tbPath);
             this.Controls.Add(this.btnSolve);
@@ -177,6 +188,7 @@ namespace Compilers_Autometa
         private System.Windows.Forms.Button btnSolve;
         private System.Windows.Forms.TextBox tbPath;
         private System.Windows.Forms.Label lbResult;
+        private System.Windows.Forms.Label lbTest;
     }
 }
 
