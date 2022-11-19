@@ -16,11 +16,28 @@ namespace Compilers_Autometa
     public partial class Form1 : Form
     {
         string lastLocation = "";
+        DataTable dt = new DataTable();
         public Form1()
         {
             InitializeComponent();
         }
 
+
+        private void Initializedgv()
+        {
+            
+            dgv.Columns.Add("Column1", "Column1");
+            dgv.Columns.Add("Column2","Column2");
+            dgv.Columns.Add("Column3","Column3");
+            dgv.Columns.Add("Column4","Column4");
+            dgv.Columns.Add("Column5","Column5");
+            dgv.Columns.Add("Column6","Column6");
+            dgv.Columns.Add("Column7","Column7");
+            dgv.RowHeadersVisible = false;
+            //dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+        }
         private void btnConvert_Click(object sender, EventArgs e)
         {
             tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]", "i");
@@ -43,7 +60,7 @@ namespace Compilers_Autometa
             OpenFileDialog browseDB = new OpenFileDialog();
             if (lastLocation.Length == 0)
             {
-                lastLocation = @"D:\Work\Collage\3_Third Year\First Semester\Artifical neual network\mass\dataset\archive";
+                lastLocation = @"D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa";
             }
             browseDB.InitialDirectory = lastLocation;
             browseDB.Filter = "Database files (*.csv)|*.csv; ";
@@ -57,27 +74,34 @@ namespace Compilers_Autometa
                 ReadCSV(browseDB.FileName);
             }
         }
+
+        void sizeDGV(DataGridView dgv)
+        {
+            DataGridViewElementStates states = DataGridViewElementStates.None;
+            dgv.ScrollBars = ScrollBars.None;
+            var totalHeight = dgv.Rows.GetRowsHeight(states) + dgv.ColumnHeadersHeight;
+            totalHeight += dgv.Rows.Count;  // a correction I need
+            var totalWidth = dgv.Columns.GetColumnsWidth(states) + dgv.RowHeadersWidth;
+            dgv.ClientSize = new Size(totalWidth, totalHeight);
+        }
         private void ReadCSV(String fileLocation)
         {
-            using (var reader = new StreamReader(fileLocation))
+            dgv.Rows.Clear();
+            Initializedgv();
+            using (TextFieldParser parser = new TextFieldParser(fileLocation))
             {
-                List<string> listA = new List<string>();
-                List<string> listB = new List<string>();
-                while (!reader.EndOfStream)
+                parser.TextFieldType = FieldType.Delimited;
+                parser.SetDelimiters(",");
+                DataRow dr = dt.NewRow();
+                while (!parser.EndOfData)
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(',');
-
-                    listA.Add(values[0]);
-                    listA.Add(values[1]);
-                    listA.Add(values[2]);
-                    listA.Add(values[3]);
-                    listA.Add(values[4]);
-                    listA.Add(values[5]);
-                    listA.Add(values[6]);
+                    //Processing row
+                    string[] fields = parser.ReadFields();
+                    dgv.Rows.Add(fields);
                 }
+                sizeDGV(dgv);
             }
         }
-
+        
     }
 }

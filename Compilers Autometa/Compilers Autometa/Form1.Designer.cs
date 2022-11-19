@@ -33,7 +33,7 @@ namespace Compilers_Autometa
             this.btnConvert = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.lbConverted = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.lbPath = new System.Windows.Forms.Label();
             this.tbInput = new System.Windows.Forms.TextBox();
             this.tbConverted = new System.Windows.Forms.TextBox();
@@ -41,7 +41,7 @@ namespace Compilers_Autometa
             this.tbPath = new System.Windows.Forms.TextBox();
             this.lbResult = new System.Windows.Forms.Label();
             this.lbTest = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
             // lbInput
@@ -82,15 +82,23 @@ namespace Compilers_Autometa
             this.lbConverted.TabIndex = 3;
             this.lbConverted.Text = "Converted text";
             // 
-            // dataGridView1
+            // dgv
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 212);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 29;
-            this.dataGridView1.Size = new System.Drawing.Size(490, 339);
-            this.dataGridView1.TabIndex = 5;
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AllowUserToResizeColumns = false;
+            this.dgv.AllowUserToResizeRows = false;
+            this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgv.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgv.ColumnHeadersHeight = 29;
+            this.dgv.GridColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dgv.Location = new System.Drawing.Point(13, 212);
+            this.dgv.Name = "dgv";
+            this.dgv.RowHeadersWidth = 51;
+            this.dgv.RowTemplate.Height = 29;
+            this.dgv.Size = new System.Drawing.Size(490, 275);
+            this.dgv.TabIndex = 5;
             // 
             // lbPath
             // 
@@ -118,7 +126,7 @@ namespace Compilers_Autometa
             // 
             // btnSolve
             // 
-            this.btnSolve.Location = new System.Drawing.Point(515, 42);
+            this.btnSolve.Location = new System.Drawing.Point(587, 55);
             this.btnSolve.Name = "btnSolve";
             this.btnSolve.Size = new System.Drawing.Size(273, 29);
             this.btnSolve.TabIndex = 9;
@@ -144,7 +152,7 @@ namespace Compilers_Autometa
             // lbTest
             // 
             this.lbTest.AutoSize = true;
-            this.lbTest.Location = new System.Drawing.Point(515, 85);
+            this.lbTest.Location = new System.Drawing.Point(587, 98);
             this.lbTest.Name = "lbTest";
             this.lbTest.Size = new System.Drawing.Size(72, 20);
             this.lbTest.TabIndex = 12;
@@ -154,7 +162,7 @@ namespace Compilers_Autometa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 563);
+            this.ClientSize = new System.Drawing.Size(880, 550);
             this.Controls.Add(this.lbTest);
             this.Controls.Add(this.lbResult);
             this.Controls.Add(this.tbPath);
@@ -162,14 +170,14 @@ namespace Compilers_Autometa
             this.Controls.Add(this.tbConverted);
             this.Controls.Add(this.tbInput);
             this.Controls.Add(this.lbPath);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgv);
             this.Controls.Add(this.lbConverted);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.btnConvert);
             this.Controls.Add(this.lbInput);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,7 +189,7 @@ namespace Compilers_Autometa
         private System.Windows.Forms.Button btnConvert;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Label lbConverted;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Label lbPath;
         private System.Windows.Forms.TextBox tbInput;
         private System.Windows.Forms.TextBox tbConverted;
