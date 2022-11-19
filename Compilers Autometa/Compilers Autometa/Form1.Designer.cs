@@ -86,6 +86,7 @@ namespace Compilers_Autometa
             // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AllowUserToOrderColumns = true;
             this.dgv.AllowUserToResizeColumns = false;
             this.dgv.AllowUserToResizeRows = false;
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
@@ -95,10 +96,13 @@ namespace Compilers_Autometa
             this.dgv.GridColor = System.Drawing.SystemColors.ControlLightLight;
             this.dgv.Location = new System.Drawing.Point(13, 212);
             this.dgv.Name = "dgv";
+            this.dgv.ReadOnly = true;
             this.dgv.RowHeadersWidth = 51;
             this.dgv.RowTemplate.Height = 29;
             this.dgv.Size = new System.Drawing.Size(490, 275);
             this.dgv.TabIndex = 5;
+            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
+            this.dgv.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgv_ColumnAdded);
             // 
             // lbPath
             // 
@@ -154,9 +158,8 @@ namespace Compilers_Autometa
             this.lbTest.AutoSize = true;
             this.lbTest.Location = new System.Drawing.Point(587, 98);
             this.lbTest.Name = "lbTest";
-            this.lbTest.Size = new System.Drawing.Size(72, 20);
+            this.lbTest.Size = new System.Drawing.Size(0, 20);
             this.lbTest.TabIndex = 12;
-            this.lbTest.Text = "Input text";
             // 
             // Form1
             // 

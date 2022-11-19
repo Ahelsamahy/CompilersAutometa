@@ -20,6 +20,11 @@ namespace Compilers_Autometa
         public Form1()
         {
             InitializeComponent();
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
         }
 
 
@@ -102,6 +107,17 @@ namespace Compilers_Autometa
                 sizeDGV(dgv);
             }
         }
-        
+
+        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int colInd = dgv.CurrentCell.ColumnIndex;
+            int rowInd = dgv.CurrentCell.RowIndex;
+
+            lbResult.Text = dgv.Rows[rowInd].Cells[0].Value.ToString();
+        }
+        private void dgv_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        {
+            e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
+        }
     }
 }
