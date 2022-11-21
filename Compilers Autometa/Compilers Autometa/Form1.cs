@@ -17,6 +17,7 @@ namespace Compilers_Autometa
     {
         string lastLocation = "";
         DataTable dt = new DataTable();
+        bool headerFilled = false;
         public Form1()
         {
             InitializeComponent();
@@ -30,28 +31,86 @@ namespace Compilers_Autometa
 
         private void Initializedgv()
         {
-            
-            dgv.Columns.Add("Column1", "Column1");
-            dgv.Columns.Add("Column2","Column2");
-            dgv.Columns.Add("Column3","Column3");
-            dgv.Columns.Add("Column4","Column4");
-            dgv.Columns.Add("Column5","Column5");
-            dgv.Columns.Add("Column6","Column6");
-            dgv.Columns.Add("Column7","Column7");
+
+
+            //dgv.Columns.Add("Column1", "Column1");
+            //dgv.Columns.Add("Column2", "Column2");
+            //dgv.Columns.Add("Column3", "Column3");
+            //dgv.Columns.Add("Column4", "Column4");
+            //dgv.Columns.Add("Column5", "Column5");
+            //dgv.Columns.Add("Column6", "Column6");
+            //dgv.Columns.Add("Column7", "Column7");
             dgv.RowHeadersVisible = false;
             //dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+
+
+
+        }
+
+        private void sysMessage(string message, Color type)
+        {
+            lbResult.Text = message;
+            lbResult.ForeColor = type;
+        }
+        void sizeDGV(DataGridView dgv)
+        {
+            DataGridViewElementStates states = DataGridViewElementStates.None;
+            dgv.ScrollBars = ScrollBars.None;
+            var totalHeight = dgv.Rows.GetRowsHeight(states) + dgv.ColumnHeadersHeight;
+            totalHeight += dgv.Rows.Count + 4;  // a correction I need
+            var totalWidth = dgv.Columns.GetColumnsWidth(states) + dgv.RowHeadersWidth;
+            dgv.ClientSize = new Size(totalWidth, totalHeight);
+        }
+        private void ReadCSV(String fileLocation)
+        {
+            dgv.Rows.Clear();
+            dgv.Refresh();
+            
+            using (TextFieldParser parser = new TextFieldParser(fileLocation))
+            {
+                parser.TextFieldType = FieldType.Delimited;
+                DataRow dr = dt.NewRow();
+                parser.SetDelimiters(",");
+
+                while (!parser.EndOfData)
+                {
+                    //Processing row
+                    string[] fields = parser.ReadFields();
+                    if (!headerFilled)
+                    {
+                        foreach (string field in fields)
+                        {
+                            dgv.Columns.Add(field, field);
+                        }
+                        headerFilled = true;
+                    }
+                    else
+                    {
+                        dgv.Rows.Add(fields);
+                    }
+
+                }
+                Initializedgv();
+                sizeDGV(dgv);
+            }
         }
         private void btnConvert_Click(object sender, EventArgs e)
         {
-            tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]", "i");
-            tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
-            lbResult.Text = "Converted text successfully";
-            lbResult.ForeColor = Color.Green;
+            if (tbInput.Text.Length == 0)
+            {
+                sysMessage("please enter text to convert", Color.Red);
+            }
+            else
+            {
+                tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", "i");
+                tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
+                sysMessage("Converted text successfully", Color.Green);
+            }
+
 
         }
-
         private void tbInput_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -59,7 +118,6 @@ namespace Compilers_Autometa
                 btnConvert.PerformClick();
             }
         }
-
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             OpenFileDialog browseDB = new OpenFileDialog();
@@ -79,35 +137,6 @@ namespace Compilers_Autometa
                 ReadCSV(browseDB.FileName);
             }
         }
-
-        void sizeDGV(DataGridView dgv)
-        {
-            DataGridViewElementStates states = DataGridViewElementStates.None;
-            dgv.ScrollBars = ScrollBars.None;
-            var totalHeight = dgv.Rows.GetRowsHeight(states) + dgv.ColumnHeadersHeight;
-            totalHeight += dgv.Rows.Count;  // a correction I need
-            var totalWidth = dgv.Columns.GetColumnsWidth(states) + dgv.RowHeadersWidth;
-            dgv.ClientSize = new Size(totalWidth, totalHeight);
-        }
-        private void ReadCSV(String fileLocation)
-        {
-            dgv.Rows.Clear();
-            Initializedgv();
-            using (TextFieldParser parser = new TextFieldParser(fileLocation))
-            {
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(",");
-                DataRow dr = dt.NewRow();
-                while (!parser.EndOfData)
-                {
-                    //Processing row
-                    string[] fields = parser.ReadFields();
-                    dgv.Rows.Add(fields);
-                }
-                sizeDGV(dgv);
-            }
-        }
-
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int colInd = dgv.CurrentCell.ColumnIndex;
