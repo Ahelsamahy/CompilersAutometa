@@ -41,6 +41,7 @@ namespace Compilers_Autometa
             this.tbPath = new System.Windows.Forms.TextBox();
             this.lbResult = new System.Windows.Forms.Label();
             this.lbTest = new System.Windows.Forms.Label();
+            this.tbResult = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,6 +137,7 @@ namespace Compilers_Autometa
             this.btnSolve.TabIndex = 9;
             this.btnSolve.Text = "Solve";
             this.btnSolve.UseVisualStyleBackColor = true;
+            this.btnSolve.Click += new System.EventHandler(this.btnSolve_Click);
             // 
             // tbPath
             // 
@@ -161,11 +163,22 @@ namespace Compilers_Autometa
             this.lbTest.Size = new System.Drawing.Size(0, 20);
             this.lbTest.TabIndex = 12;
             // 
+            // tbResult
+            // 
+            this.tbResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbResult.Location = new System.Drawing.Point(587, 98);
+            this.tbResult.Name = "tbResult";
+            this.tbResult.ReadOnly = true;
+            this.tbResult.Size = new System.Drawing.Size(273, 20);
+            this.tbResult.TabIndex = 13;
+            this.tbResult.Text = "gfghg";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(880, 550);
+            this.Controls.Add(this.tbResult);
             this.Controls.Add(this.lbTest);
             this.Controls.Add(this.lbResult);
             this.Controls.Add(this.tbPath);
@@ -200,6 +213,7 @@ namespace Compilers_Autometa
         private System.Windows.Forms.TextBox tbPath;
         private System.Windows.Forms.Label lbResult;
         private System.Windows.Forms.Label lbTest;
+        private System.Windows.Forms.TextBox tbResult;
     }
 }
 

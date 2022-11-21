@@ -15,12 +15,17 @@ namespace Compilers_Autometa
 {
     public partial class Form1 : Form
     {
-        string lastLocation = "";
+        string LASTLOCATION = "";
+        char[] INPUT = new char[] { };
+        char[] STACK = new char[] { 'E', '#' };
+        string RULESTEPS = "";
         DataTable dt = new DataTable();
         bool headerFilled = false;
         public Form1()
         {
             InitializeComponent();
+            tbResult.TextAlign = HorizontalAlignment.Center;
+
             foreach (DataGridViewColumn column in dgv.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -31,22 +36,8 @@ namespace Compilers_Autometa
 
         private void Initializedgv()
         {
-
-
-            //dgv.Columns.Add("Column1", "Column1");
-            //dgv.Columns.Add("Column2", "Column2");
-            //dgv.Columns.Add("Column3", "Column3");
-            //dgv.Columns.Add("Column4", "Column4");
-            //dgv.Columns.Add("Column5", "Column5");
-            //dgv.Columns.Add("Column6", "Column6");
-            //dgv.Columns.Add("Column7", "Column7");
             dgv.RowHeadersVisible = false;
-            //dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-
-
-
         }
 
         private void sysMessage(string message, Color type)
@@ -67,8 +58,7 @@ namespace Compilers_Autometa
         {
             dgv.Rows.Clear();
             dgv.Refresh();
-            
-            using (TextFieldParser parser = new TextFieldParser(fileLocation))
+            using (TextFieldParser parser = new TextFieldParser(fileLocation, Encoding.UTF8))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 DataRow dr = dt.NewRow();
@@ -96,6 +86,51 @@ namespace Compilers_Autometa
                 sizeDGV(dgv);
             }
         }
+
+        private void calculateStep(string[] currentCellValue, char inputFirst)
+        {
+            if (true)// row == column then remove
+            {
+
+            }
+            tbResult.Text += string.Format("({0}, {1}, {2})", tbConverted.Text, new string(STACK), RULESTEPS);
+        }
+
+        private void ReadDGVCell()
+        {
+            int colIndex;
+            int rowIndex;
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                if (char.ToString(INPUT[0]) == column.HeaderText)
+                {
+                    colIndex = column.Index;
+                }
+                //tbResult.Text += column.HeaderText;
+            }
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (char.ToString(STACK[0]) == (string) row.Cells[0].FormattedValue)
+                {
+                    rowIndex = row.Cells[0].RowIndex;
+                }
+            }
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    //(input, stack, serial number of the rules)
+                    string cellValue = cell.Value.ToString().Replace("(", "").Replace(")", "");
+                    string[] splitted = cellValue.Split(';');
+                    if (splitted[0] == char.ToString(INPUT[0]))
+                    {
+                        calculateStep(splitted, INPUT[0]);
+                    }
+
+                }
+            }
+        }
         private void btnConvert_Click(object sender, EventArgs e)
         {
             if (tbInput.Text.Length == 0)
@@ -106,6 +141,9 @@ namespace Compilers_Autometa
             {
                 tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", "i");
                 tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
+                INPUT = tbConverted.Text.ToCharArray();
+                tbResult.Text = "";
+
                 sysMessage("Converted text successfully", Color.Green);
             }
 
@@ -121,18 +159,18 @@ namespace Compilers_Autometa
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             OpenFileDialog browseDB = new OpenFileDialog();
-            if (lastLocation.Length == 0)
+            if (LASTLOCATION.Length == 0)
             {
-                lastLocation = @"D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa";
+                LASTLOCATION = @"D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa";
             }
-            browseDB.InitialDirectory = lastLocation;
+            browseDB.InitialDirectory = LASTLOCATION;
             browseDB.Filter = "Database files (*.csv)|*.csv; ";
             browseDB.FilterIndex = 0;
             browseDB.RestoreDirectory = true;
 
             if (browseDB.ShowDialog() == DialogResult.OK)
             {
-                lastLocation = Path.GetDirectoryName(browseDB.FileName);
+                LASTLOCATION = Path.GetDirectoryName(browseDB.FileName);
                 tbPath.Text = browseDB.FileName;
                 ReadCSV(browseDB.FileName);
             }
@@ -147,6 +185,23 @@ namespace Compilers_Autometa
         private void dgv_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
+        }
+        private void btnSolve_Click(object sender, EventArgs e)
+        {
+            if (dgv.Rows.Count == 0)
+            {
+                sysMessage("Please add a file to read from first", Color.Red);
+            }
+            else if (INPUT.Length == 0)
+            {
+                sysMessage("Please type input first ", Color.Red);
+                tbInput.Focus();
+            }
+            else
+            {
+                ReadDGVCell();
+            }
+
         }
     }
 }
