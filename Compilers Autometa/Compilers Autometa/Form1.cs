@@ -15,46 +15,57 @@ namespace Compilers_Autometa
 {
     public partial class Form1 : Form
     {
-        string LASTLOCATION = "";
+        string LAST_LOCATION = "";
         string INPUT = "";
-        Stack RULESET = new Stack();
-        string RULESTEPS = "";
+        Stack RULE_SET = new Stack();
+        string RULE_STEPS = "";
         DataTable dt = new DataTable();
-        bool headerFilled = false;
+        bool HEADER_FILLED = false;
+
         public Form1()
         {
             InitializeComponent();
+            initComp();
+        }
+        private void initComp()
+        {
             tbResult.TextAlign = HorizontalAlignment.Center;
             tbMessage.TextAlign = HorizontalAlignment.Center;
-            
 
             foreach (DataGridViewColumn column in dgv.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
-            RULESET.Push("#");
-            RULESET.Push("E");
-        }
-        private void Initializedgv()
-        {
             dgv.RowHeadersVisible = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            RULE_SET.Push("#");
+            RULE_SET.Push("E");
+
+
         }
         private void sysMessage(string message, Color type)
         {
             tbMessage.Text = message;
             tbMessage.ForeColor = Color.Red;
         }
-        void sizeDGV(DataGridView dgv)
+        private void createDGV_Cells(string[] fields)
         {
-            DataGridViewElementStates states = DataGridViewElementStates.None;
-            dgv.ScrollBars = ScrollBars.None;
-            var totalHeight = dgv.Rows.GetRowsHeight(states) + dgv.ColumnHeadersHeight;
-            totalHeight += dgv.Rows.Count + 4;  // a correction I need
-            var totalWidth = dgv.Columns.GetColumnsWidth(states) + dgv.RowHeadersWidth;
-            dgv.ClientSize = new Size(totalWidth, totalHeight);
+            if (!HEADER_FILLED)
+            {
+                foreach (string field in fields)
+                {
+                    dgv.Columns.Add(field, field);
+                }
+                HEADER_FILLED = true;
+            }
+            else
+            {
+                dgv.Rows.Add(fields);
+            }
         }
+
         private void ReadCSV(String fileLocation)
         {
             dgv.Rows.Clear();
@@ -69,96 +80,105 @@ namespace Compilers_Autometa
                 {
                     //Processing row
                     string[] fields = parser.ReadFields();
-                    if (!headerFilled)
-                    {
-                        foreach (string field in fields)
-                        {
-                            dgv.Columns.Add(field, field);
-                        }
-                        headerFilled = true;
-                    }
-                    else
-                    {
-                        dgv.Rows.Add(fields);
-                    }
-
+                    createDGV_Cells(fields);
                 }
-                Initializedgv();
-                //sizeDGV(dgv);
             }
         }
         private void calculateStep(List<string> currentCellValue, char inputFirst, int rowIndex, int colIndex)
         {
+            //first is to romove the first element in the stack 
 
-            RULESET.Pop();
-            if ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() == (string)dgv.Columns[colIndex].HeaderText)
+            RULE_SET.Pop();
+            if ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() == (string)dgv.Columns[colIndex].HeaderText)//for the pop
             {
                 INPUT = INPUT.Remove(0, 1);
             }
-            else if (currentCellValue[0] == "")
+            else if (currentCellValue[0] == "")//not to through error when there is nothing in the cell
             {
 
             }
             else
             {
-                for (int i = currentCellValue.Count - 2; i >= 0; i--)
+                for (int i = currentCellValue.Count - 2; i >= 0; i--)//if there are more than one letter stored in the ruleSet
                 {
-                    RULESET.Push(currentCellValue[i]);
+                    RULE_SET.Push(currentCellValue[i]);
                 }
-                RULESTEPS += int.Parse(currentCellValue.Last()); // to store the step
+                RULE_STEPS += int.Parse(currentCellValue.Last()); // to store the step
             }
 
-            if ((string)RULESET.Peek() == "ε")
+            if ((string)RULE_SET.Peek() == "ε")
             {
-                RULESET.Pop();
+                RULE_SET.Pop();
             }
 
+            PrintStep();
+        }
+        private void PrintStep()
+        {
             string wholeStack = "";
-            foreach (var item in RULESET)
+            foreach (var item in RULE_SET)
             {
                 wholeStack += item;
             }
-            tbResult.Text += string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), wholeStack, RULESTEPS, Environment.NewLine);
+            tbResult.Text += string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), wholeStack, RULE_STEPS, Environment.NewLine);
         }
+
+        private void getIndex(ref int colIndex, ref int rowIndex)
+        {
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                if (char.ToString(INPUT[0]) == column.HeaderText)
+                {
+                    colIndex = column.Index;
+                }
+            }
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if ((string)RULE_SET.Peek() == row.Cells[0].Value.ToString())
+                {
+                    rowIndex = row.Cells[0].RowIndex;
+                }
+            }
+        }
+        private List<string> formatCell( ref List<string> splitted)
+        {
+            if (splitted[0].Length > 1) // if there are more than one character
+            {
+                string[] temp = splitted[0].Select(c => c.ToString()).ToArray();
+                splitted.RemoveAt(0);
+                splitted = temp.Concat(splitted).ToList();
+            }
+            if (splitted.Contains("`"))
+            {
+                splitted[splitted.IndexOf("`") - 1] += "`";
+                splitted.RemoveAt(splitted.IndexOf("`"));
+            }
+            return splitted;
+        }
+
         private void ReadDGVCell()
         {
-            RULESTEPS = "";
+            RULE_STEPS = "";
             int colIndex = 0;
             int rowIndex = 0;
             do
             {
-                foreach (DataGridViewColumn column in dgv.Columns)
-                {
-                    if (char.ToString(INPUT[0]) == column.HeaderText)
-                    {
-                        colIndex = column.Index;
-                    }
-                }
-                foreach (DataGridViewRow row in dgv.Rows)
-                {
-                    if ((string)RULESET.Peek() == row.Cells[0].Value.ToString())
-                    {
-                        rowIndex = row.Cells[0].RowIndex;
-                    }
-                }
-                string selectCell = dgv.Rows[rowIndex].Cells[colIndex].Value.ToString();
+                getIndex(ref colIndex, ref rowIndex);
 
+                string selectCell = dgv.Rows[rowIndex].Cells[colIndex].Value.ToString();
                 string cellValue = selectCell.ToString().Replace("(", "").Replace(")", "");
                 List<string> splitted = cellValue.Split(';').ToList();
 
-                if (splitted[0].Length > 1) // if there are more than one character
-                {
-                    string[] temp = splitted[0].Select(c => c.ToString()).ToArray();
-                    splitted.RemoveAt(0);
-                    splitted = temp.Concat(splitted).ToList();
-                }
-                if (splitted.Contains("`"))
-                {
-                    splitted[splitted.IndexOf("`") - 1] += "`";
-                    splitted.RemoveAt(splitted.IndexOf("`"));
-                }
+                formatCell(ref splitted);
+
                 calculateStep(splitted, INPUT[0], rowIndex, colIndex);
             } while ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() != "#" && (string)dgv.Columns[colIndex].HeaderText != "#");
+        }
+        private void formatConvertedText()
+        {
+            tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", "i");
+            tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", "i"); ;
+            tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
         }
         private void btnConvert_Click(object sender, EventArgs e)
         {
@@ -168,17 +188,14 @@ namespace Compilers_Autometa
             }
             else
             {
-                tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", "i");
-                tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", "i"); ;
-                tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
+                formatConvertedText()
 
                 INPUT += tbConverted.Text;
-                tbResult.Text = "";
                 sysMessage("Converted text successfully", Color.Green);
-                string temp = (string)RULESET.Peek();
-                RULESET.Pop();
-                tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), (temp + (string)RULESET.Peek()), RULESTEPS, Environment.NewLine);
-                RULESET.Push(temp);
+                string temp = (string)RULE_SET.Peek();
+                RULE_SET.Pop();
+                tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), (temp + (string)RULE_SET.Peek()), RULE_STEPS, Environment.NewLine);
+                RULE_SET.Push(temp);
             }
 
 
@@ -195,18 +212,18 @@ namespace Compilers_Autometa
             resetDGV();
             tbPath.Text = "";
             OpenFileDialog browseDB = new OpenFileDialog();
-            if (LASTLOCATION.Length == 0)
+            if (LAST_LOCATION.Length == 0)
             {
-                LASTLOCATION = @"D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa";
+                LAST_LOCATION = @"D:\Work\Collage\3_Third Year\First Semester\Compilers\final\CompilersAutometa";
             }
-            browseDB.InitialDirectory = LASTLOCATION;
+            browseDB.InitialDirectory = LAST_LOCATION;
             browseDB.Filter = "Database files (*.csv)|*.csv; ";
             browseDB.FilterIndex = 0;
             browseDB.RestoreDirectory = true;
 
             if (browseDB.ShowDialog() == DialogResult.OK)
             {
-                LASTLOCATION = Path.GetDirectoryName(browseDB.FileName);
+                LAST_LOCATION = Path.GetDirectoryName(browseDB.FileName);
                 tbPath.Text = browseDB.FileName;
                 ReadCSV(browseDB.FileName);
             }
@@ -310,14 +327,13 @@ namespace Compilers_Autometa
         }
         private void reset()
         {
-            tbConverted.Text = tbInput.Text = tbPath.Text = tbResult.Text = tbMessage.Text= "";
+            tbConverted.Text = tbInput.Text = tbPath.Text = tbResult.Text = tbMessage.Text = "";
             resetDGV();
 
         }
-
         private void resetDGV()
         {
-            headerFilled = false;
+            HEADER_FILLED = false;
             dgv.Columns.Clear();
             dgv.Rows.Clear();
             foreach (DataGridViewColumn column in dgv.Columns)
@@ -329,15 +345,12 @@ namespace Compilers_Autometa
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-
             switch (keyData)
             {
                 case Keys.Escape:
                     reset();
                     break;
-
             }
-
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }
