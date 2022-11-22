@@ -60,7 +60,7 @@ namespace Compilers_Autometa
             this.btnConvert.Location = new System.Drawing.Point(430, 47);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(73, 29);
-            this.btnConvert.TabIndex = 1;
+            this.btnConvert.TabIndex = 2;
             this.btnConvert.Text = "Convert";
             this.btnConvert.UseVisualStyleBackColor = true;
             this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
@@ -70,7 +70,7 @@ namespace Compilers_Autometa
             this.btnBrowse.Location = new System.Drawing.Point(430, 148);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(73, 29);
-            this.btnBrowse.TabIndex = 2;
+            this.btnBrowse.TabIndex = 3;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -129,13 +129,14 @@ namespace Compilers_Autometa
             this.tbConverted.Name = "tbConverted";
             this.tbConverted.Size = new System.Drawing.Size(286, 27);
             this.tbConverted.TabIndex = 8;
+            this.tbConverted.TabStop = false;
             // 
             // btnSolve
             // 
             this.btnSolve.Location = new System.Drawing.Point(587, 55);
             this.btnSolve.Name = "btnSolve";
             this.btnSolve.Size = new System.Drawing.Size(273, 29);
-            this.btnSolve.TabIndex = 9;
+            this.btnSolve.TabIndex = 4;
             this.btnSolve.Text = "Solve";
             this.btnSolve.UseVisualStyleBackColor = true;
             this.btnSolve.Click += new System.EventHandler(this.btnSolve_Click);
@@ -146,6 +147,7 @@ namespace Compilers_Autometa
             this.tbPath.Name = "tbPath";
             this.tbPath.Size = new System.Drawing.Size(286, 27);
             this.tbPath.TabIndex = 10;
+            this.tbPath.TabStop = false;
             // 
             // lbTest
             // 

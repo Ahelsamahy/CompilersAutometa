@@ -48,43 +48,11 @@ namespace Compilers_Autometa
         private void sysMessage(string message, Color type)
         {
             tbMessage.Text = message;
-            tbMessage.ForeColor = Color.Red;
-        }
-        private void createDGV_Cells(string[] fields)
-        {
-            if (!HEADER_FILLED)
-            {
-                foreach (string field in fields)
-                {
-                    dgv.Columns.Add(field, field);
-                }
-                HEADER_FILLED = true;
-            }
-            else
-            {
-                dgv.Rows.Add(fields);
-            }
+            tbMessage.ForeColor = type;
         }
 
-        private void ReadCSV(String fileLocation)
-        {
-            dgv.Rows.Clear();
-            dgv.Refresh();
-            using (TextFieldParser parser = new TextFieldParser(fileLocation, Encoding.UTF8))
-            {
-                parser.TextFieldType = FieldType.Delimited;
-                DataRow dr = dt.NewRow();
-                parser.SetDelimiters(",");
-
-                while (!parser.EndOfData)
-                {
-                    //Processing row
-                    string[] fields = parser.ReadFields();
-                    createDGV_Cells(fields);
-                }
-            }
-        }
-        private void calculateStep(List<string> currentCellValue, char inputFirst, int rowIndex, int colIndex)
+        #region Syntex tree related
+        public void calSyntexTree(List<string> currentCellValue, char inputFirst, int rowIndex, int colIndex)
         {
             //first is to romove the first element in the stack 
 
@@ -111,9 +79,9 @@ namespace Compilers_Autometa
                 RULE_SET.Pop();
             }
 
-            PrintStep();
+            printSyntexTree();
         }
-        private void PrintStep()
+        public void printSyntexTree()
         {
             string wholeStack = "";
             foreach (var item in RULE_SET)
@@ -122,8 +90,7 @@ namespace Compilers_Autometa
             }
             tbResult.Text += string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), wholeStack, RULE_STEPS, Environment.NewLine);
         }
-
-        private void getIndex(ref int colIndex, ref int rowIndex)
+        public void getIndex(ref int colIndex, ref int rowIndex)
         {
             foreach (DataGridViewColumn column in dgv.Columns)
             {
@@ -140,7 +107,7 @@ namespace Compilers_Autometa
                 }
             }
         }
-        private List<string> formatCell( ref List<string> splitted)
+        public List<string> foramtFoundedCell(ref List<string> splitted)
         {
             if (splitted[0].Length > 1) // if there are more than one character
             {
@@ -155,8 +122,7 @@ namespace Compilers_Autometa
             }
             return splitted;
         }
-
-        private void ReadDGVCell()
+        public void readDGVCell()
         {
             RULE_STEPS = "";
             int colIndex = 0;
@@ -169,11 +135,49 @@ namespace Compilers_Autometa
                 string cellValue = selectCell.ToString().Replace("(", "").Replace(")", "");
                 List<string> splitted = cellValue.Split(';').ToList();
 
-                formatCell(ref splitted);
+                foramtFoundedCell(ref splitted);
 
-                calculateStep(splitted, INPUT[0], rowIndex, colIndex);
-            } while ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() != "#" && (string)dgv.Columns[colIndex].HeaderText != "#");
+                calSyntexTree(splitted, INPUT[0], rowIndex, colIndex);
+            } while (INPUT != "#" && INPUT.Length != 0 &&
+             (string)RULE_SET.Peek() != "#" && RULE_SET.Count != 0);
         }
+        #endregion
+        #region DataGridView related
+        public void createDGV_Cells(string[] fields)
+        {
+            if (!HEADER_FILLED)
+            {
+                foreach (string field in fields)
+                {
+                    dgv.Columns.Add(field, field);
+                }
+                HEADER_FILLED = true;
+            }
+            else
+            {
+                dgv.Rows.Add(fields);
+            }
+        }
+        public void ReadCSV(String fileLocation)
+        {
+            dgv.Rows.Clear();
+            dgv.Refresh();
+            using (TextFieldParser parser = new TextFieldParser(fileLocation, Encoding.UTF8))
+            {
+                parser.TextFieldType = FieldType.Delimited;
+                DataRow dr = dt.NewRow();
+                parser.SetDelimiters(",");
+
+                while (!parser.EndOfData)
+                {
+                    //Processing row
+                    string[] fields = parser.ReadFields();
+                    createDGV_Cells(fields);
+                }
+            }
+        }
+        #endregion 
+
         private void formatConvertedText()
         {
             tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", "i");
@@ -188,17 +192,16 @@ namespace Compilers_Autometa
             }
             else
             {
-                formatConvertedText()
+                formatConvertedText();
 
                 INPUT += tbConverted.Text;
                 sysMessage("Converted text successfully", Color.Green);
+
                 string temp = (string)RULE_SET.Peek();
                 RULE_SET.Pop();
                 tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), (temp + (string)RULE_SET.Peek()), RULE_STEPS, Environment.NewLine);
                 RULE_SET.Push(temp);
             }
-
-
         }
         private void tbInput_KeyDown(object sender, KeyEventArgs e)
         {
@@ -228,13 +231,6 @@ namespace Compilers_Autometa
                 ReadCSV(browseDB.FileName);
             }
         }
-        private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int colInd = dgv.CurrentCell.ColumnIndex;
-            int rowInd = dgv.CurrentCell.RowIndex;
-
-            tbMessage.Text = dgv.Rows[rowInd].Cells[0].Value.ToString();
-        }
         private void dgv_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             e.Column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -252,7 +248,7 @@ namespace Compilers_Autometa
             }
             else
             {
-                ReadDGVCell();
+                readDGVCell();
             }
 
         }
@@ -329,7 +325,6 @@ namespace Compilers_Autometa
         {
             tbConverted.Text = tbInput.Text = tbPath.Text = tbResult.Text = tbMessage.Text = "";
             resetDGV();
-
         }
         private void resetDGV()
         {
