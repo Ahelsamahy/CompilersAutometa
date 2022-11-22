@@ -39,16 +39,17 @@ namespace Compilers_Autometa
             this.tbConverted = new System.Windows.Forms.TextBox();
             this.btnSolve = new System.Windows.Forms.Button();
             this.tbPath = new System.Windows.Forms.TextBox();
-            this.lbResult = new System.Windows.Forms.Label();
             this.lbTest = new System.Windows.Forms.Label();
             this.tbResult = new System.Windows.Forms.TextBox();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.tbMessage = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
             // lbInput
             // 
             this.lbInput.AutoSize = true;
-            this.lbInput.Location = new System.Drawing.Point(13, 64);
+            this.lbInput.Location = new System.Drawing.Point(13, 51);
             this.lbInput.Name = "lbInput";
             this.lbInput.Size = new System.Drawing.Size(72, 20);
             this.lbInput.TabIndex = 0;
@@ -56,7 +57,7 @@ namespace Compilers_Autometa
             // 
             // btnConvert
             // 
-            this.btnConvert.Location = new System.Drawing.Point(430, 60);
+            this.btnConvert.Location = new System.Drawing.Point(430, 47);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(73, 29);
             this.btnConvert.TabIndex = 1;
@@ -66,7 +67,7 @@ namespace Compilers_Autometa
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(430, 161);
+            this.btnBrowse.Location = new System.Drawing.Point(430, 148);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(73, 29);
             this.btnBrowse.TabIndex = 2;
@@ -77,7 +78,7 @@ namespace Compilers_Autometa
             // lbConverted
             // 
             this.lbConverted.AutoSize = true;
-            this.lbConverted.Location = new System.Drawing.Point(12, 114);
+            this.lbConverted.Location = new System.Drawing.Point(12, 101);
             this.lbConverted.Name = "lbConverted";
             this.lbConverted.Size = new System.Drawing.Size(106, 20);
             this.lbConverted.TabIndex = 3;
@@ -95,20 +96,20 @@ namespace Compilers_Autometa
             this.dgv.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv.ColumnHeadersHeight = 29;
             this.dgv.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dgv.Location = new System.Drawing.Point(13, 212);
+            this.dgv.Location = new System.Drawing.Point(13, 199);
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
             this.dgv.RowHeadersWidth = 51;
             this.dgv.RowTemplate.Height = 29;
-            this.dgv.Size = new System.Drawing.Size(490, 275);
+            this.dgv.Size = new System.Drawing.Size(490, 299);
             this.dgv.TabIndex = 5;
-            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellClick);
+            this.dgv.TabStop = false;
             this.dgv.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgv_ColumnAdded);
             // 
             // lbPath
             // 
             this.lbPath.AutoSize = true;
-            this.lbPath.Location = new System.Drawing.Point(13, 165);
+            this.lbPath.Location = new System.Drawing.Point(13, 152);
             this.lbPath.Name = "lbPath";
             this.lbPath.Size = new System.Drawing.Size(69, 20);
             this.lbPath.TabIndex = 6;
@@ -116,7 +117,7 @@ namespace Compilers_Autometa
             // 
             // tbInput
             // 
-            this.tbInput.Location = new System.Drawing.Point(125, 60);
+            this.tbInput.Location = new System.Drawing.Point(125, 47);
             this.tbInput.Name = "tbInput";
             this.tbInput.Size = new System.Drawing.Size(286, 27);
             this.tbInput.TabIndex = 1;
@@ -124,7 +125,7 @@ namespace Compilers_Autometa
             // 
             // tbConverted
             // 
-            this.tbConverted.Location = new System.Drawing.Point(125, 111);
+            this.tbConverted.Location = new System.Drawing.Point(125, 98);
             this.tbConverted.Name = "tbConverted";
             this.tbConverted.Size = new System.Drawing.Size(286, 27);
             this.tbConverted.TabIndex = 8;
@@ -141,19 +142,10 @@ namespace Compilers_Autometa
             // 
             // tbPath
             // 
-            this.tbPath.Location = new System.Drawing.Point(125, 162);
+            this.tbPath.Location = new System.Drawing.Point(125, 149);
             this.tbPath.Name = "tbPath";
             this.tbPath.Size = new System.Drawing.Size(286, 27);
             this.tbPath.TabIndex = 10;
-            // 
-            // lbResult
-            // 
-            this.lbResult.AutoSize = true;
-            this.lbResult.Location = new System.Drawing.Point(164, 9);
-            this.lbResult.Name = "lbResult";
-            this.lbResult.Size = new System.Drawing.Size(0, 20);
-            this.lbResult.TabIndex = 11;
-            this.lbResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbTest
             // 
@@ -173,15 +165,39 @@ namespace Compilers_Autometa
             this.tbResult.ReadOnly = true;
             this.tbResult.Size = new System.Drawing.Size(273, 400);
             this.tbResult.TabIndex = 13;
+            this.tbResult.TabStop = false;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Location = new System.Drawing.Point(206, 509);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(94, 29);
+            this.btnExport.TabIndex = 14;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // tbMessage
+            // 
+            this.tbMessage.AcceptsReturn = true;
+            this.tbMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbMessage.Location = new System.Drawing.Point(125, 12);
+            this.tbMessage.Name = "tbMessage";
+            this.tbMessage.ReadOnly = true;
+            this.tbMessage.Size = new System.Drawing.Size(286, 20);
+            this.tbMessage.TabIndex = 15;
+            this.tbMessage.TabStop = false;
+            this.tbMessage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(880, 550);
+            this.Controls.Add(this.tbMessage);
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.tbResult);
             this.Controls.Add(this.lbTest);
-            this.Controls.Add(this.lbResult);
             this.Controls.Add(this.tbPath);
             this.Controls.Add(this.btnSolve);
             this.Controls.Add(this.tbConverted);
@@ -212,9 +228,10 @@ namespace Compilers_Autometa
         private System.Windows.Forms.TextBox tbConverted;
         private System.Windows.Forms.Button btnSolve;
         private System.Windows.Forms.TextBox tbPath;
-        private System.Windows.Forms.Label lbResult;
         private System.Windows.Forms.Label lbTest;
         private System.Windows.Forms.TextBox tbResult;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.TextBox tbMessage;
     }
 }
 
