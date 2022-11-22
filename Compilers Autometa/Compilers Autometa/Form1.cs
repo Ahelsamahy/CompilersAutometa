@@ -2,14 +2,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -34,7 +32,7 @@ namespace Compilers_Autometa
             }
 
             RULESET.Push("#");
-            RULESET.Push("T");
+            RULESET.Push("E");
         }
 
 
@@ -95,31 +93,27 @@ namespace Compilers_Autometa
         {
 
             RULESET.Pop();
-
-            for (int i = currentCellValue.Count - 2; i >= 0; i--)
-            {
-                RULESET.Push(currentCellValue[i]);
-            }
-            //RULESET.Push(currentCellValue);
-
-            //if (RULESET.Count > 0 && (string)RULESET.Peek() == "ε")
-            //{
-            //    RULESET.Pop();
-            //}
-
-            if ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() == (string) dgv.Columns[colIndex].HeaderText)
+            if ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() == (string)dgv.Columns[colIndex].HeaderText)
             {
                 INPUT = INPUT.Remove(0, 1);
-            }else if (currentCellValue[0] == "")
+            }
+            else if (currentCellValue[0] == "")
             {
-                
+
             }
             else
             {
+                for (int i = currentCellValue.Count - 2; i >= 0; i--)
+                {
+                    RULESET.Push(currentCellValue[i]);
+                }
                 RULESTEPS += int.Parse(currentCellValue.Last()); // to store the step
             }
 
-
+            if ((string)RULESET.Peek() == "ε")
+            {
+                RULESET.Pop();
+            }
 
             string wholeStack = "";
             foreach (var item in RULESET)
@@ -133,7 +127,6 @@ namespace Compilers_Autometa
             RULESTEPS = "";
             int colIndex = 0;
             int rowIndex = 0;
-            int counter = 9;
             do
             {
                 foreach (DataGridViewColumn column in dgv.Columns)
@@ -150,7 +143,6 @@ namespace Compilers_Autometa
                         rowIndex = row.Cells[0].RowIndex;
                     }
                 }
-
                 string selectCell = dgv.Rows[rowIndex].Cells[colIndex].Value.ToString();
 
                 string cellValue = selectCell.ToString().Replace("(", "").Replace(")", "");
@@ -162,31 +154,13 @@ namespace Compilers_Autometa
                     splitted.RemoveAt(0);
                     splitted = temp.Concat(splitted).ToList();
                 }
-
-
                 if (splitted.Contains("`"))
                 {
                     splitted[splitted.IndexOf("`") - 1] += "`";
                     splitted.RemoveAt(splitted.IndexOf("`"));
                 }
-
                 calculateStep(splitted, INPUT[0], rowIndex, colIndex);
-                counter--;
-            } while (counter > 1);//RULESET.Count > 1
-            //foreach (DataGridViewRow row in dgv.Rows)
-            //{
-            //    foreach (DataGridViewCell cell in row.Cells)
-            //    {
-            //        //(input, stack, serial number of the rules)
-            //        string cellValue = cell.Value.ToString().Replace("(", "").Replace(")", "");
-            //        string[] splitted = cellValue.Split(';');
-            //        if (splitted[0] == char.ToString(INPUT[0]))
-            //        {
-            //            calculateStep(splitted, INPUT[0]);
-            //        }
-
-            //    }
-            //}
+            } while ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() != "#" && (string)dgv.Columns[colIndex].HeaderText != "#");
         }
         private void btnConvert_Click(object sender, EventArgs e)
         {
@@ -203,9 +177,9 @@ namespace Compilers_Autometa
                 INPUT += tbConverted.Text;
                 tbResult.Text = "";
                 sysMessage("Converted text successfully", Color.Green);
-                string temp = (string) RULESET.Peek();
+                string temp = (string)RULESET.Peek();
                 RULESET.Pop();
-                tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), (temp + (string) RULESET.Peek()), RULESTEPS, Environment.NewLine);
+                tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), (temp + (string)RULESET.Peek()), RULESTEPS, Environment.NewLine);
                 RULESET.Push(temp);
             }
 
@@ -261,7 +235,6 @@ namespace Compilers_Autometa
             }
             else
             {
-                //tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), String.Join("", RULESET), RULESTEPS, Environment.NewLine);
                 ReadDGVCell();
             }
 
