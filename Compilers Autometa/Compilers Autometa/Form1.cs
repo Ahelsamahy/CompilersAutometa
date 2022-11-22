@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,13 +12,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Compilers_Autometa
 {
     public partial class Form1 : Form
     {
         string LASTLOCATION = "";
-        char[] INPUT = new char[] { };
-        char[] STACK = new char[] { 'E', '#' };
+        string INPUT = "";
+        Stack RULESET = new Stack();
         string RULESTEPS = "";
         DataTable dt = new DataTable();
         bool headerFilled = false;
@@ -31,6 +33,8 @@ namespace Compilers_Autometa
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
+            RULESET.Push("#");
+            RULESET.Push("T");
         }
 
 
@@ -87,49 +91,102 @@ namespace Compilers_Autometa
             }
         }
 
-        private void calculateStep(string[] currentCellValue, char inputFirst)
+        private void calculateStep(List<string> currentCellValue, char inputFirst, int rowIndex, int colIndex)
         {
-            if (true)// row == column then remove
+
+            RULESET.Pop();
+
+            for (int i = currentCellValue.Count - 2; i >= 0; i--)
             {
-
+                RULESET.Push(currentCellValue[i]);
             }
-            tbResult.Text += string.Format("({0}, {1}, {2})", tbConverted.Text, new string(STACK), RULESTEPS);
-        }
+            //RULESET.Push(currentCellValue);
 
+            //if (RULESET.Count > 0 && (string)RULESET.Peek() == "ε")
+            //{
+            //    RULESET.Pop();
+            //}
+
+            if ((string)dgv.Rows[rowIndex].Cells[0].Value.ToString() == (string) dgv.Columns[colIndex].HeaderText)
+            {
+                INPUT = INPUT.Remove(0, 1);
+            }else if (currentCellValue[0] == "")
+            {
+                
+            }
+            else
+            {
+                RULESTEPS += int.Parse(currentCellValue.Last()); // to store the step
+            }
+
+
+
+            string wholeStack = "";
+            foreach (var item in RULESET)
+            {
+                wholeStack += item;
+            }
+            tbResult.Text += string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), wholeStack, RULESTEPS, Environment.NewLine);
+        }
         private void ReadDGVCell()
         {
-            int colIndex;
-            int rowIndex;
-            foreach (DataGridViewColumn column in dgv.Columns)
+            RULESTEPS = "";
+            int colIndex = 0;
+            int rowIndex = 0;
+            int counter = 9;
+            do
             {
-                if (char.ToString(INPUT[0]) == column.HeaderText)
+                foreach (DataGridViewColumn column in dgv.Columns)
                 {
-                    colIndex = column.Index;
-                }
-                //tbResult.Text += column.HeaderText;
-            }
-            foreach (DataGridViewRow row in dgv.Rows)
-            {
-                if (char.ToString(STACK[0]) == (string) row.Cells[0].FormattedValue)
-                {
-                    rowIndex = row.Cells[0].RowIndex;
-                }
-            }
-
-            foreach (DataGridViewRow row in dgv.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    //(input, stack, serial number of the rules)
-                    string cellValue = cell.Value.ToString().Replace("(", "").Replace(")", "");
-                    string[] splitted = cellValue.Split(';');
-                    if (splitted[0] == char.ToString(INPUT[0]))
+                    if (char.ToString(INPUT[0]) == column.HeaderText)
                     {
-                        calculateStep(splitted, INPUT[0]);
+                        colIndex = column.Index;
                     }
-
                 }
-            }
+                foreach (DataGridViewRow row in dgv.Rows)
+                {
+                    if ((string)RULESET.Peek() == row.Cells[0].Value.ToString())
+                    {
+                        rowIndex = row.Cells[0].RowIndex;
+                    }
+                }
+
+                string selectCell = dgv.Rows[rowIndex].Cells[colIndex].Value.ToString();
+
+                string cellValue = selectCell.ToString().Replace("(", "").Replace(")", "");
+                List<string> splitted = cellValue.Split(';').ToList();
+
+                if (splitted[0].Length > 1) // if there are more than one character
+                {
+                    string[] temp = splitted[0].Select(c => c.ToString()).ToArray();
+                    splitted.RemoveAt(0);
+                    splitted = temp.Concat(splitted).ToList();
+                }
+
+
+                if (splitted.Contains("`"))
+                {
+                    splitted[splitted.IndexOf("`") - 1] += "`";
+                    splitted.RemoveAt(splitted.IndexOf("`"));
+                }
+
+                calculateStep(splitted, INPUT[0], rowIndex, colIndex);
+                counter--;
+            } while (counter > 1);//RULESET.Count > 1
+            //foreach (DataGridViewRow row in dgv.Rows)
+            //{
+            //    foreach (DataGridViewCell cell in row.Cells)
+            //    {
+            //        //(input, stack, serial number of the rules)
+            //        string cellValue = cell.Value.ToString().Replace("(", "").Replace(")", "");
+            //        string[] splitted = cellValue.Split(';');
+            //        if (splitted[0] == char.ToString(INPUT[0]))
+            //        {
+            //            calculateStep(splitted, INPUT[0]);
+            //        }
+
+            //    }
+            //}
         }
         private void btnConvert_Click(object sender, EventArgs e)
         {
@@ -140,11 +197,16 @@ namespace Compilers_Autometa
             else
             {
                 tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", "i");
+                tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", "i"); ;
                 tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
-                INPUT = tbConverted.Text.ToCharArray();
-                tbResult.Text = "";
 
+                INPUT += tbConverted.Text;
+                tbResult.Text = "";
                 sysMessage("Converted text successfully", Color.Green);
+                string temp = (string) RULESET.Peek();
+                RULESET.Pop();
+                tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), (temp + (string) RULESET.Peek()), RULESTEPS, Environment.NewLine);
+                RULESET.Push(temp);
             }
 
 
@@ -199,6 +261,7 @@ namespace Compilers_Autometa
             }
             else
             {
+                //tbResult.Text = string.Format("({0}, {1}, {2}) {3}", new string(INPUT.ToArray()), String.Join("", RULESET), RULESTEPS, Environment.NewLine);
                 ReadDGVCell();
             }
 

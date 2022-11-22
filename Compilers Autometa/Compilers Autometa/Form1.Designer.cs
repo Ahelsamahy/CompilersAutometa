@@ -165,13 +165,14 @@ namespace Compilers_Autometa
             // 
             // tbResult
             // 
+            this.tbResult.AcceptsReturn = true;
             this.tbResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbResult.Location = new System.Drawing.Point(587, 98);
+            this.tbResult.Multiline = true;
             this.tbResult.Name = "tbResult";
             this.tbResult.ReadOnly = true;
-            this.tbResult.Size = new System.Drawing.Size(273, 20);
+            this.tbResult.Size = new System.Drawing.Size(273, 400);
             this.tbResult.TabIndex = 13;
-            this.tbResult.Text = "gfghg";
             // 
             // Form1
             // 
