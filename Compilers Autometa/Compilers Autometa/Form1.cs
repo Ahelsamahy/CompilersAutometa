@@ -127,7 +127,7 @@ namespace Compilers_Autometa
             RULE_STEPS = "";
             int colIndex = 0;
             int rowIndex = 0;
-            do
+            while ((string)RULE_SET.Peek() != (string)"#")
             {
                 getIndex(ref colIndex, ref rowIndex);
 
@@ -138,8 +138,7 @@ namespace Compilers_Autometa
                 foramtFoundedCell(ref splitted);
 
                 calSyntexTree(splitted, INPUT[0], rowIndex, colIndex);
-            } while (INPUT != "#" && INPUT.Length != 0 &&
-             (string)RULE_SET.Peek() != "#" && RULE_SET.Count != 0);
+            }
         }
         #endregion
         #region DataGridView related
@@ -324,6 +323,11 @@ namespace Compilers_Autometa
         private void reset()
         {
             tbConverted.Text = tbInput.Text = tbPath.Text = tbResult.Text = tbMessage.Text = "";
+            tbInput.Focus();
+            RULE_STEPS = "";
+            INPUT = "";
+            RULE_SET.Push("#");
+            RULE_SET.Push("E");
             resetDGV();
         }
         private void resetDGV()
