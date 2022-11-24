@@ -22,7 +22,7 @@ namespace Compilers_Autometa
         DataTable dt = new DataTable();
         bool HEADER_FILLED = false;
         char CONVERTED_TEXT_VAR;
-        char STACK_TEXT_VAR = 'E';
+        char STACK_TEXT_VAR;
         public Form1()
         {
             InitializeComponent();
@@ -42,10 +42,6 @@ namespace Compilers_Autometa
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             initToolTip();
-
-
-
-
         }
 
         private void initToolTip()
@@ -76,7 +72,7 @@ namespace Compilers_Autometa
             {
                 INPUT = INPUT.Remove(0, 1);
             }
-            else if (currentCellValue[0] == "")//not to through error when there is nothing in the cell
+            else if (currentCellValue[0] == "")//not to through error when there is nothing in the cell and overcome the else statement
             {
 
             }
@@ -193,7 +189,7 @@ namespace Compilers_Autometa
         #endregion 
 
 
-        private bool checkWithHeaderText(char convHold)
+        private bool checkWithColumnText(char convHold)
         {
             bool exsists = false;
 
@@ -213,14 +209,29 @@ namespace Compilers_Autometa
 
         }
 
+        private bool checkWithRowText(char convHold)
+        {
+            bool exsists = false;
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (char.ToString(convHold) == row.Cells[0].Value.ToString())
+                {
+                    exsists = true;
+                    break;
+                }
+                else
+                {
+                    exsists = false;
+                }
+            }
+            return exsists;
+
+        }
+
         private void formatConvertedText()
         {
-            if (tbConvTextVar.Text.Length == 1)
-            {
-
-                CONVERTED_TEXT_VAR = char.Parse(tbConvTextVar.Text);
-
-            }
+            if (tbConvTextVar.Text.Length == 1) { CONVERTED_TEXT_VAR = char.Parse(tbConvTextVar.Text); }
             else if (tbConvTextVar.Text.Length > 1)
             {
                 MessageBox.Show("please choose only one character", "character error",
@@ -230,8 +241,21 @@ namespace Compilers_Autometa
             {
                 CONVERTED_TEXT_VAR = 'i';
             }
+
+            if (tbStackStartVar.Text.Length == 1) { STACK_TEXT_VAR = char.Parse(tbStackStartVar.Text); }
+
+            else if (tbStackStartVar.Text.Length > 1)
+            {
+                MessageBox.Show("please choose only one character", "character error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                STACK_TEXT_VAR = 'E';
+            }
+
             tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", char.ToString(CONVERTED_TEXT_VAR));
-            tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", char.ToString(CONVERTED_TEXT_VAR)); ;
+            tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", char.ToString(CONVERTED_TEXT_VAR));
             tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
         }
         private void btnConvert_Click(object sender, EventArgs e)
@@ -245,7 +269,7 @@ namespace Compilers_Autometa
                 formatConvertedText();
                 //so it won't add more if there is more than one convert in
                 //case of Converted text variable change by user 
-                if (RULE_SET.Count == 0)        
+                if (RULE_SET.Count == 0)
                 {
                     RULE_SET.Push("#");
                     RULE_SET.Push(char.ToString(STACK_TEXT_VAR));
@@ -302,14 +326,23 @@ namespace Compilers_Autometa
                 sysMessage("Please type input first ", Color.Red);
                 tbInput.Focus();
             }
-            else if (tbConvTextVar.Text.Length == 1 && checkWithHeaderText(char.Parse(tbConvTextVar.Text)) == false)
+            else if (tbConvTextVar.Text.Length == 1 && checkWithColumnText(char.Parse(tbConvTextVar.Text)) == false)
             {
-                MessageBox.Show("please choose one character that exists in table cell header", "character error",
+                MessageBox.Show("please choose one character that exists in table cell column header", "character error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tbConvTextVar.Text = "";
+                tbConvTextVar.Focus();
+            }
+            else if (tbStackStartVar.Text.Length == 1 && checkWithRowText(char.Parse(tbStackStartVar.Text)) == false)
+            {
+                MessageBox.Show("please choose one character that exists in table cell row header", "character error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbStackStartVar.Text = "";
+                tbStackStartVar.Focus();
             }
             else
             {
+                CONVERTED_TEXT_VAR = 'i';
                 readDGVCell();
             }
 
