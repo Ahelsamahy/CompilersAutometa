@@ -21,7 +21,8 @@ namespace Compilers_Autometa
         string RULE_STEPS = "";
         DataTable dt = new DataTable();
         bool HEADER_FILLED = false;
-
+        char CONVERTED_TEXT_VAR;
+        char STACK_TEXT_VAR = 'E';
         public Form1()
         {
             InitializeComponent();
@@ -40,10 +41,24 @@ namespace Compilers_Autometa
             dgv.RowHeadersVisible = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            RULE_SET.Push("#");
-            RULE_SET.Push("E");
+            initToolTip();
 
 
+
+
+        }
+
+        private void initToolTip()
+        {
+            ToolTip toolTip1 = new ToolTip();
+
+            toolTip1.ShowAlways = true;
+
+            // Set up the ToolTip text for the Button and Checkbox.
+            toolTip1.SetToolTip(this.lbConvTextVar, "Enter only one variable to be used in the \n" +
+                "\"Converted text\", if you don't enter then will use \"i\"");
+            toolTip1.SetToolTip(this.lbStackStartVar, "Enter only one variable to be used in the \n" +
+                "to hold the text of input, if you don't enter then will use \"E\"");
         }
         private void sysMessage(string message, Color type)
         {
@@ -177,10 +192,46 @@ namespace Compilers_Autometa
         }
         #endregion 
 
+
+        private bool checkWithHeaderText(char convHold)
+        {
+            bool exsists = false;
+
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                if (char.ToString(convHold) == column.HeaderText)
+                {
+                    exsists = true;
+                    break;
+                }
+                else
+                {
+                    exsists = false;
+                }
+            }
+            return exsists;
+
+        }
+
         private void formatConvertedText()
         {
-            tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", "i");
-            tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", "i"); ;
+            if (tbConvTextVar.Text.Length == 1)
+            {
+
+                CONVERTED_TEXT_VAR = char.Parse(tbConvTextVar.Text);
+
+            }
+            else if (tbConvTextVar.Text.Length > 1)
+            {
+                MessageBox.Show("please choose only one character", "character error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                CONVERTED_TEXT_VAR = 'i';
+            }
+            tbConverted.Text = Regex.Replace(tbInput.Text, "[0-9]+", char.ToString(CONVERTED_TEXT_VAR));
+            tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", char.ToString(CONVERTED_TEXT_VAR)); ;
             tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
         }
         private void btnConvert_Click(object sender, EventArgs e)
@@ -192,8 +243,14 @@ namespace Compilers_Autometa
             else
             {
                 formatConvertedText();
-
-                INPUT += tbConverted.Text;
+                //so it won't add more if there is more than one convert in
+                //case of Converted text variable change by user 
+                if (RULE_SET.Count == 0)        
+                {
+                    RULE_SET.Push("#");
+                    RULE_SET.Push(char.ToString(STACK_TEXT_VAR));
+                }
+                INPUT = tbConverted.Text;
                 sysMessage("Converted text successfully", Color.Green);
 
                 string temp = (string)RULE_SET.Peek();
@@ -244,6 +301,12 @@ namespace Compilers_Autometa
             {
                 sysMessage("Please type input first ", Color.Red);
                 tbInput.Focus();
+            }
+            else if (tbConvTextVar.Text.Length == 1 && checkWithHeaderText(char.Parse(tbConvTextVar.Text)) == false)
+            {
+                MessageBox.Show("please choose one character that exists in table cell header", "character error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbConvTextVar.Text = "";
             }
             else
             {
