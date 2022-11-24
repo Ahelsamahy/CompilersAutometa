@@ -29,6 +29,7 @@ namespace Compilers_Autometa
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbInput = new System.Windows.Forms.Label();
             this.btnConvert = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
@@ -43,6 +44,11 @@ namespace Compilers_Autometa
             this.tbResult = new System.Windows.Forms.TextBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.tbMessage = new System.Windows.Forms.TextBox();
+            this.lbConvTextVar = new System.Windows.Forms.Label();
+            this.tbConvTextVar = new System.Windows.Forms.TextBox();
+            this.lbStackStartVar = new System.Windows.Forms.Label();
+            this.tbStackStartVar = new System.Windows.Forms.TextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,7 +73,7 @@ namespace Compilers_Autometa
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(430, 148);
+            this.btnBrowse.Location = new System.Drawing.Point(430, 234);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(73, 29);
             this.btnBrowse.TabIndex = 3;
@@ -96,9 +102,9 @@ namespace Compilers_Autometa
             this.dgv.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv.ColumnHeadersHeight = 29;
             this.dgv.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dgv.Location = new System.Drawing.Point(13, 199);
+            this.dgv.Location = new System.Drawing.Point(12, 285);
+            this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
-            this.dgv.ReadOnly = true;
             this.dgv.RowHeadersWidth = 51;
             this.dgv.RowTemplate.Height = 29;
             this.dgv.Size = new System.Drawing.Size(490, 299);
@@ -109,7 +115,7 @@ namespace Compilers_Autometa
             // lbPath
             // 
             this.lbPath.AutoSize = true;
-            this.lbPath.Location = new System.Drawing.Point(13, 152);
+            this.lbPath.Location = new System.Drawing.Point(13, 238);
             this.lbPath.Name = "lbPath";
             this.lbPath.Size = new System.Drawing.Size(69, 20);
             this.lbPath.TabIndex = 6;
@@ -127,7 +133,7 @@ namespace Compilers_Autometa
             // 
             this.tbConverted.Location = new System.Drawing.Point(125, 98);
             this.tbConverted.Name = "tbConverted";
-            this.tbConverted.Size = new System.Drawing.Size(286, 27);
+            this.tbConverted.Size = new System.Drawing.Size(378, 27);
             this.tbConverted.TabIndex = 8;
             this.tbConverted.TabStop = false;
             // 
@@ -143,7 +149,7 @@ namespace Compilers_Autometa
             // 
             // tbPath
             // 
-            this.tbPath.Location = new System.Drawing.Point(125, 149);
+            this.tbPath.Location = new System.Drawing.Point(125, 235);
             this.tbPath.Name = "tbPath";
             this.tbPath.Size = new System.Drawing.Size(286, 27);
             this.tbPath.TabIndex = 10;
@@ -171,7 +177,7 @@ namespace Compilers_Autometa
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(206, 509);
+            this.btnExport.Location = new System.Drawing.Point(206, 604);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(94, 29);
             this.btnExport.TabIndex = 14;
@@ -191,11 +197,49 @@ namespace Compilers_Autometa
             this.tbMessage.TabStop = false;
             this.tbMessage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // lbConvTextVar
+            // 
+            this.lbConvTextVar.AutoSize = true;
+            this.lbConvTextVar.Location = new System.Drawing.Point(12, 149);
+            this.lbConvTextVar.Name = "lbConvTextVar";
+            this.lbConvTextVar.Size = new System.Drawing.Size(163, 20);
+            this.lbConvTextVar.TabIndex = 16;
+            this.lbConvTextVar.Text = "Converted text variable";
+            // 
+            // tbConvTextVar
+            // 
+            this.tbConvTextVar.Location = new System.Drawing.Point(181, 146);
+            this.tbConvTextVar.Name = "tbConvTextVar";
+            this.tbConvTextVar.Size = new System.Drawing.Size(321, 27);
+            this.tbConvTextVar.TabIndex = 17;
+            this.tbConvTextVar.TabStop = false;
+            // 
+            // lbStackStartVar
+            // 
+            this.lbStackStartVar.AutoSize = true;
+            this.lbStackStartVar.Location = new System.Drawing.Point(13, 193);
+            this.lbStackStartVar.Name = "lbStackStartVar";
+            this.lbStackStartVar.Size = new System.Drawing.Size(155, 20);
+            this.lbStackStartVar.TabIndex = 18;
+            this.lbStackStartVar.Text = "Stack starting variable";
+            // 
+            // tbStackStartVar
+            // 
+            this.tbStackStartVar.Location = new System.Drawing.Point(181, 189);
+            this.tbStackStartVar.Name = "tbStackStartVar";
+            this.tbStackStartVar.Size = new System.Drawing.Size(321, 27);
+            this.tbStackStartVar.TabIndex = 19;
+            this.tbStackStartVar.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(880, 550);
+            this.ClientSize = new System.Drawing.Size(880, 645);
+            this.Controls.Add(this.tbStackStartVar);
+            this.Controls.Add(this.lbStackStartVar);
+            this.Controls.Add(this.tbConvTextVar);
+            this.Controls.Add(this.lbConvTextVar);
             this.Controls.Add(this.tbMessage);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.tbResult);
@@ -211,7 +255,7 @@ namespace Compilers_Autometa
             this.Controls.Add(this.btnConvert);
             this.Controls.Add(this.lbInput);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Autometa Compiler";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -234,6 +278,11 @@ namespace Compilers_Autometa
         private System.Windows.Forms.TextBox tbResult;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.TextBox tbMessage;
+        private System.Windows.Forms.Label lbConvTextVar;
+        private System.Windows.Forms.TextBox tbConvTextVar;
+        private System.Windows.Forms.Label lbStackStartVar;
+        private System.Windows.Forms.TextBox tbStackStartVar;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
