@@ -1,4 +1,4 @@
-using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +23,8 @@ namespace Compilers_Autometa
         bool HEADER_FILLED = false;
         char CONVERTED_TEXT_VAR;
         char STACK_TEXT_VAR;
+
+
         public Form1()
         {
             InitializeComponent();
@@ -53,7 +55,6 @@ namespace Compilers_Autometa
             btnSolve.TabIndex = 7;
 
         }
-
         private void initToolTip()
         {
             ToolTip toolTip1 = new ToolTip();
@@ -160,9 +161,11 @@ namespace Compilers_Autometa
 
                 calSyntexTree(splitted, INPUT[0], rowIndex, colIndex);
             }
+
             RULE_SET.Clear();
         }
         #endregion
+
         #region DataGridView related
         public void createDGV_Cells(string[] fields)
         {
@@ -199,7 +202,6 @@ namespace Compilers_Autometa
         }
         #endregion 
 
-
         private bool checkWithColumnText(char convHold)
         {
             bool exsists = false;
@@ -219,7 +221,6 @@ namespace Compilers_Autometa
             return exsists;
 
         }
-
         private bool checkWithRowText(char convHold)
         {
             bool exsists = false;
@@ -239,7 +240,6 @@ namespace Compilers_Autometa
             return exsists;
 
         }
-
         private void formatConvertedText()
         {
             if (tbConvTextVar.Text.Length == 1) { CONVERTED_TEXT_VAR = char.Parse(tbConvTextVar.Text); }
@@ -270,6 +270,8 @@ namespace Compilers_Autometa
             tbConverted.Text = Regex.Replace(tbConverted.Text, "[A-Za-z]+", char.ToString(CONVERTED_TEXT_VAR));
             tbConverted.Text = Regex.Replace(tbConverted.Text, @"\s+", "") + "#";
         }
+
+
         private void btnConvert_Click(object sender, EventArgs e)
         {
             if (tbInput.Text.Length == 0)
@@ -286,6 +288,7 @@ namespace Compilers_Autometa
                     RULE_SET.Push("#");
                     RULE_SET.Push(char.ToString(STACK_TEXT_VAR));
                 }
+                RULE_STEPS = "";
                 INPUT = tbConverted.Text;
                 sysMessage("Converted text successfully", Color.Green);
 
@@ -441,8 +444,11 @@ namespace Compilers_Autometa
             tbInput.Focus();
             RULE_STEPS = "";
             INPUT = "";
+            tbConvTextVar.Text = "";
+            tbStackStartVar.Text = "";
+            RULE_SET.Clear();
             RULE_SET.Push("#");
-            RULE_SET.Push("E");
+            RULE_SET.Push(char.ToString(STACK_TEXT_VAR));
             resetDGV();
         }
         private void resetDGV()

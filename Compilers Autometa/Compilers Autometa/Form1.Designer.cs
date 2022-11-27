@@ -76,7 +76,7 @@ namespace Compilers_Autometa
             this.btnBrowse.Location = new System.Drawing.Point(430, 234);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(73, 29);
-            this.btnBrowse.TabIndex = 3;
+            this.btnBrowse.TabIndex = 5;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -128,6 +128,7 @@ namespace Compilers_Autometa
             this.tbInput.Size = new System.Drawing.Size(286, 27);
             this.tbInput.TabIndex = 1;
             this.tbInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbInput_KeyDown);
+            this.tbInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbInput_KeyPress);
             // 
             // tbConverted
             // 
@@ -142,7 +143,7 @@ namespace Compilers_Autometa
             this.btnSolve.Location = new System.Drawing.Point(587, 55);
             this.btnSolve.Name = "btnSolve";
             this.btnSolve.Size = new System.Drawing.Size(273, 29);
-            this.btnSolve.TabIndex = 4;
+            this.btnSolve.TabIndex = 6;
             this.btnSolve.Text = "Solve";
             this.btnSolve.UseVisualStyleBackColor = true;
             this.btnSolve.Click += new System.EventHandler(this.btnSolve_Click);
@@ -211,8 +212,7 @@ namespace Compilers_Autometa
             this.tbConvTextVar.Location = new System.Drawing.Point(181, 146);
             this.tbConvTextVar.Name = "tbConvTextVar";
             this.tbConvTextVar.Size = new System.Drawing.Size(321, 27);
-            this.tbConvTextVar.TabIndex = 17;
-            this.tbConvTextVar.TabStop = false;
+            this.tbConvTextVar.TabIndex = 3;
             // 
             // lbStackStartVar
             // 
@@ -228,8 +228,7 @@ namespace Compilers_Autometa
             this.tbStackStartVar.Location = new System.Drawing.Point(181, 189);
             this.tbStackStartVar.Name = "tbStackStartVar";
             this.tbStackStartVar.Size = new System.Drawing.Size(321, 27);
-            this.tbStackStartVar.TabIndex = 19;
-            this.tbStackStartVar.TabStop = false;
+            this.tbStackStartVar.TabIndex = 4;
             // 
             // Form1
             // 
@@ -255,6 +254,7 @@ namespace Compilers_Autometa
             this.Controls.Add(this.btnConvert);
             this.Controls.Add(this.lbInput);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Autometa Compiler";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
