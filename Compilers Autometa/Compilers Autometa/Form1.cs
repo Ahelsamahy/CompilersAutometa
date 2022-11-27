@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic.FileIO;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,6 +42,16 @@ namespace Compilers_Autometa
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             initToolTip();
+
+
+            tbInput.TabIndex = 1;
+            btnConvert.TabIndex = 2;
+            tbConvTextVar.TabIndex = 3;
+            tbStackStartVar.TabIndex = 4;
+            tbPath.TabIndex = 5;
+            btnExport.TabIndex = 6;
+            btnSolve.TabIndex = 7;
+
         }
 
         private void initToolTip()
