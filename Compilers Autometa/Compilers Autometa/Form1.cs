@@ -262,6 +262,7 @@ namespace Compilers_Autometa
             }
             else
             {
+                sysMessage("changed starting variable in stack", Color.Green);
                 STACK_TEXT_VAR = 'E';
             }
 
