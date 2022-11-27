@@ -1,9 +1,15 @@
+Input:
 the tab index that goes to important buttons and field that user would normally need them
-you can edit the cells 
-export is also avaliable
+if condition to limit the input to be numbers and OEM operation keys only
 
 you can choose a variable to be used in the converted text varable "i"
 check if this character exists in the table column header
 
 you can choose a variable to be used to hold the variable for input "E"
 check if this character exists in the table row header
+
+DGV:
+you can edit the cells 
+export is also avaliable
+
+
