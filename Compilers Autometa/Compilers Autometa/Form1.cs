@@ -428,6 +428,13 @@ namespace Compilers_Autometa
             }
 
         }
+        private void tbInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != '-' && e.KeyChar != '+' && e.KeyChar != '*' && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
         private void reset()
         {
             tbConverted.Text = tbInput.Text = tbPath.Text = tbResult.Text = tbMessage.Text = "";
