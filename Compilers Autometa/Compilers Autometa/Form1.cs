@@ -160,6 +160,7 @@ namespace Compilers_Autometa
 
                 calSyntexTree(splitted, INPUT[0], rowIndex, colIndex);
             }
+            RULE_SET.Clear();
         }
         #endregion
         #region DataGridView related
